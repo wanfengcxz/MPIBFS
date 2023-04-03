@@ -119,8 +119,9 @@ void parallel(int n, int* adjacency_matrix, int rank, int size, int save)
     sendcounts[size - 1] = count * n;
     displs[size - 1] = (n - count) * n;
 
-    // 每个秩的邻接矩阵分布
+    // 每个进程都拷贝一份邻接矩阵
     int* adjacency_thread = (int*)malloc(sizeof(int) * n * n);
+    // 将邻接矩阵分发到每个进程
     MPI_Scatterv(adjacency_matrix, sendcounts, displs, MPI_INT, adjacency_thread, n * n, MPI_INT, 0, MPI_COMM_WORLD);
 
     // 处理初始化以根（零）秩
