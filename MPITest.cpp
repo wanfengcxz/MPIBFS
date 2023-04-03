@@ -107,6 +107,7 @@ void parallel(int n, int* adjacency_matrix, int rank, int size, int save)
     int* sendcounts = (int*)malloc(sizeof(int) * size); // 每个层次的顶点数
     int* displs = (int*)malloc(sizeof(int) * size); // 每个秩的邻接矩阵中的偏移量
 
+    // 负载均衡
     // 计算邻接矩阵中的顶点数和位移
     int count = n;
     for (int i = 0; i < size - 1; i++)
@@ -153,6 +154,7 @@ void parallel(int n, int* adjacency_matrix, int rank, int size, int save)
                 }
             }
         }
+        // 同步
         MPI_Barrier(MPI_COMM_WORLD);
 
         // 按每个层形成具有下一级队列的数组
@@ -263,7 +265,7 @@ int main(int argc, char* argv[])
         std::cin >> save;
     }
 
-    std::cout << rank << std::endl;
+    // std::cout << rank << std::endl;
 
     // 将输入数据发送到所有处理器
     MPI_Bcast(&n, 1, MPI_INT, 0, MPI_COMM_WORLD);
