@@ -68,7 +68,7 @@ void serial(int n, int* adjacency_matrix, int save)
 
 
 
-// 寻找高层的结点
+// 找到当前val对应的进程编号数
 int find_owner(int n, int size, int val)
 {
     int owner = 0;
@@ -83,10 +83,10 @@ int find_owner(int n, int size, int val)
     return owner;
 }
 
-// 用于校正秩内顶点值的辅助方法
+// 用于校正下一个进程的初始顶点值的辅助方法
 int adjust_vertex(int n, int size, int val)
 {
-    return val - find_owner(n, size, val) * (n / size);
+    return val - find_owner(n, size, val) * (n / size); 
 }
 
 // 并行处理
